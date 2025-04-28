@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+    <persistence-unit name="trainingPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- Entités -->
+        <class>tn.gs.projet.model.Utilisateur</class>
+        <class>tn.gs.projet.model.Role</class>
+        <class>tn.gs.projet.model.Domaine</class>
+        <class>tn.gs.projet.model.Profil</class>
+        <class>tn.gs.projet.model.Structure</class>
+        <class>tn.gs.projet.model.Formateur</class>
+        <class>tn.gs.projet.model.Employeur</class>
+        <class>tn.gs.projet.model.Formation</class>
+        <class>tn.gs.projet.model.Participant</class>
+        <class>tn.gs.projet.model.FormationParticipant</class>
+
+
+        <properties>
+
+
+            <!-- Configuration Hibernate -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.cache.use_second_level_cache" value="false"/>
+            <property name="hibernate.cache.use_query_cache" value="false"/>
+
+
+            <!-- Désactiver JSON-B si non utilisé -->
+            <property name="hibernate.jsonb.mapper" value="DISABLED"/>
+
+            <!-- Configuration Directe MySQL -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/training_db"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value="Yas123sine"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+        </properties>
+    </persistence-unit>
+</persistence>
