@@ -1,5 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%
+    HttpSession userSession = request.getSession(false);
+    String role = (userSession != null) ? (String) userSession.getAttribute("role") : null;
+
+    // Autoriser uniquement "utilisateur" et "administrateur"
+    if (userSession == null || !("simple_utilisateur".equals(role) || "administrateur".equals(role))) {
+        response.sendRedirect(request.getContextPath() + "/login");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -39,58 +50,68 @@
 
         .table-container {
             background: white;
-            border-radius: 16px;
+            border-radius: 18px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             overflow: hidden;
-            padding: 1.5rem;
+            padding: 2rem;
         }
 
         .card-header {
             background: var(--primary-color);
             color: white;
-            border-radius: 16px 16px 0 0 !important;
-            padding: 1.5rem;
+            border-radius: 18px 18px 0 0 !important;
+            padding: 1.75rem;
         }
 
-        .btn {
-            border-radius: 8px;
-            padding: 8px 20px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
+        .form-control, .form-select {
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            border-radius: 10px !important;
         }
 
         .select2-container--default .select2-selection--single {
-            border-radius: 8px;
-            padding: 8px;
-            border: 1px solid #dee2e6;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
         }
 
-        footer {
-            margin-top: auto;
-            background: var(--dark);
-            color: white;
-            padding: 1.5rem 0;
+        .select2-container--default .select2-selection__arrow {
+            height: 46px;
         }
 
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.6s ease forwards;
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+        }
+        .nav-custom .navbar-brand {
+            display: flex !important;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            margin-left: 1rem;
         }
 
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
+        .nav-custom .navbar-brand img {
+            height: 40px;
+            transition: transform 0.3s;
+        }
+
+        .nav-custom .navbar-brand:hover img {
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-dark fixed-top">
     <div class="container-fluid d-flex justify-content-between align-items-center">
+        <!-- Bouton Accueil -->
+        <a class="btn btn-home btn-outline-light me-3"
+           href="${pageContext.request.contextPath}/<%= "simple_utilisateur".equals(role) ? "utilisateurDashboard.jsp" : "adminDashboard.jsp" %>">
+            <i class="fas fa-home"></i>
+        </a>
+        <!-- Menu Utilisateur -->
         <div class="d-flex align-items-center">
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
@@ -110,7 +131,6 @@
                 </ul>
             </div>
         </div>
-
         <a class="navbar-brand mx-auto" href="#">
             <img src="https://cdn-icons-png.flaticon.com/512/1974/1974346.png" alt="Logo" style="height:40px">
             Gestion des Formations
@@ -141,7 +161,7 @@
                             <option value="">Choisir une formation...</option>
                             <c:forEach items="${formationsNonPlanifiees}" var="formation">
                                 <option value="${formation.id}">
-                                    ${formation.titre} (${formation.domaine.libelle} - ${formation.annee})
+                                        ${formation.titre} (${formation.domaine.libelle} - ${formation.annee})
                                 </option>
                             </c:forEach>
                         </select>
@@ -154,7 +174,7 @@
                             <option value="">Choisir un formateur...</option>
                             <c:forEach items="${formateurs}" var="formateur">
                                 <option value="${formateur.id}">
-                                    ${formateur.nom} ${formateur.prenom} (${formateur.type})
+                                        ${formateur.nom} ${formateur.prenom} (${formateur.type})
                                 </option>
                             </c:forEach>
                         </select>
