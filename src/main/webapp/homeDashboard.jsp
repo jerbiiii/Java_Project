@@ -173,13 +173,50 @@
     </div>
 </div>
 
-<main class="container main-content">
-    <div class="stat-card">
-        <h4 class="mb-4"><i class="fas fa-chart-line me-2"></i>Statistiques Annuelles</h4>
-        <div class="chart-container">
-            <canvas id="annualChart"></canvas>
+
+    <main class="container main-content">
+        <!-- Nouvelle section de cartes -->
+        <div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
+            <!-- Carte Statistiques Générales -->
+            <div class="col">
+                <div class="card h-100 shadow-lg">
+                    <div class="card-img-top position-relative">
+                        <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                             class="w-100" style="height: 180px; object-fit: cover;">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title mb-3">
+                            <i class="fas fa-chart-pie me-2"></i>Statistiques Globales
+                        </h3>
+                        <p class="card-text text-muted">Consultez les indicateurs clés de performance</p>
+                        <a href="${pageContext.request.contextPath}/stats" class="btn btn-primary px-4">
+                            Accéder <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte Statistiques Annuelles -->
+            <div class="col">
+                <div class="card h-100 shadow-lg">
+                    <div class="card-img-top position-relative">
+                        <img src="https://images.unsplash.com/photo-1554224155-3a58922a22c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                             class="w-100" style="height: 180px; object-fit: cover;">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title mb-3">
+                            <i class="fas fa-chart-line me-2"></i>Statistiques Annuelles
+                        </h3>
+                        <p class="card-text text-muted">Analysez les tendances sur plusieurs années</p>
+                        <a href="${pageContext.request.contextPath}/statsannuelle" class="btn btn-success px-4">
+                            Accéder <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+
+
 </main>
 
 <footer class="bg-dark text-white mt-auto">
@@ -191,9 +228,6 @@
     </div>
 </footer>
 
-<script id="jsonData" type="application/json">
-    ${formationsParAnneeJSON}
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -202,42 +236,6 @@
         loader.style.opacity = 0;
         setTimeout(() => loader.style.display = "none", 500);
 
-        try {
-            const rawData = JSON.parse(document.getElementById("jsonData").textContent);
-            const years = Object.keys(rawData).sort((a, b) => a - b);
-            const counts = years.map(year => rawData[year]);
-
-            new Chart(document.getElementById('annualChart'), {
-                type: 'line',
-                data: {
-                    labels: years,
-                    datasets: [{
-                        label: 'Nombre de formations',
-                        data: counts,
-                        borderColor: '#4e73df',
-                        backgroundColor: 'rgba(78, 115, 223, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, title: { display: true, text: 'Nombre de formations' } },
-                        x: { title: { display: true, text: 'Années' } }
-                    }
-                }
-            });
-
-        } catch (error) {
-            console.error('Erreur:', error);
-            document.getElementById('annualChart').outerHTML = `
-                <div class="alert alert-danger text-center m-4">
-                    Aucune donnée disponible
-                </div>
-            `;
-        }
     });
 </script>
 </body>
