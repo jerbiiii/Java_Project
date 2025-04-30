@@ -279,7 +279,7 @@
             <i class="fas fa-calendar-alt me-2"></i>Planning
           </h3>
           <p class="card-text text-muted">Consultez et planifiez les sessions de formation</p>
-          <a href="${pageContext.request.contextPath}/planification" class="btn btn-info px-4">
+          <a href="${pageContext.request.contextPath}/formationsPlanifiees" class="btn btn-info px-4">
             Accéder <i class="fas fa-arrow-right ms-2"></i>
           </a>
         </div>

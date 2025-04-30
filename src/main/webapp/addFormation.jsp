@@ -166,7 +166,7 @@
                         <!-- Budget -->
                         <div class="col-md-6">
                             <div class="mb-4">
-                                <label class="form-label fw-bold">Budget (€)</label>
+                                <label class="form-label fw-bold">Budget (TND)</label>
                                 <input type="number" name="budget" value="${formation.budget}"
                                        class="form-control form-control-lg" step="any" required>
                             </div>

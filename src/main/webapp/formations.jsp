@@ -173,7 +173,7 @@
                             <td>${formation.annee}</td>
                             <td>${formation.duree}</td>
                             <td><span class="badge bg-primary">${formation.domaine.libelle}</span></td>
-                            <td>${formation.budget} €</td>
+                            <td>${formation.budget} TND</td>
                             <td>
                                 <c:forEach var="participant" items="${formation.participants}">
                                     <span class="badge bg-secondary">${participant.participant.nom}</span>

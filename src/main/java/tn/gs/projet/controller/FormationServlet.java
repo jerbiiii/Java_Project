@@ -149,21 +149,12 @@ public class FormationServlet extends HttpServlet {
     private void deletePlanification(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
-        try {
             Long id = Long.parseLong(request.getParameter("id"));
             formationDao.deletePlanification(id);
             if (!response.isCommitted()) {
                 response.sendRedirect(request.getContextPath() + "/formationsPlanifiees");
             }
-        } catch (NumberFormatException e) {
-            if (!response.isCommitted()) {
-                response.sendRedirect(request.getContextPath() + "/errorPage.jsp?message=ID invalide");
-            }
-        } catch (Exception e) {
-            if (!response.isCommitted()) {
-                response.sendRedirect(request.getContextPath() + "/errorPage.jsp?message=" + e.getMessage());
-            }
-        }
+
     }
 
 }

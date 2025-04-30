@@ -240,7 +240,7 @@ body {
       data: {
         labels: Object.keys(budgetData),
         datasets: [{
-          label: "Budget (€)",
+          label: "Budget (TND)",
           data: Object.values(budgetData),
           borderColor: "#1cc88a",
           fill: false
