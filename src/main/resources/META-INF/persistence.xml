@@ -17,10 +17,7 @@
         <class>tn.gs.projet.model.Formation</class>
         <class>tn.gs.projet.model.Participant</class>
         <class>tn.gs.projet.model.FormationParticipant</class>
-
-
         <properties>
-
 
             <!-- Configuration Hibernate -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>

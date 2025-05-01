@@ -1,9 +1,8 @@
 package tn.gs.projet.controller;
 
-import jakarta.persistence.EntityManager;
+
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;

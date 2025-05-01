@@ -68,19 +68,6 @@ footer {
       top: -1px;
     }
 
-    .card {
-      border: none;
-      border-radius: 16px;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 25px rgba(0,0,0,0.15);
-    }
-
     #loader {
       position: fixed;
       z-index: 9999;

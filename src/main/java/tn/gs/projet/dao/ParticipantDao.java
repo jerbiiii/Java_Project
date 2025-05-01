@@ -3,6 +3,8 @@ package tn.gs.projet.dao;
 
 import jakarta.persistence.*;
 import tn.gs.projet.model.Participant;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -48,6 +50,17 @@ public class ParticipantDao {
                         o -> (String) o[0],
                         o -> (Long) o[1]
                 ));
+    }
+    public Map<String, Long> getParticipantsCountByStructure() {
+        Map<String, Long> result = new HashMap<>();
+        // Exemple de requête JPQL (à adapter selon votre implémentation)
+        String jpql = "SELECT s.libelle, COUNT(p) FROM Participant p JOIN p.structure s GROUP BY s.libelle";
+        Query query = em.createQuery(jpql);
+        List<Object[]> results = query.getResultList();
+        for (Object[] row : results) {
+            result.put((String) row[0], (Long) row[1]);
+        }
+        return result;
     }
 
 }

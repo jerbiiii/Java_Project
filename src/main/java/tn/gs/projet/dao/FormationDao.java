@@ -2,7 +2,6 @@ package tn.gs.projet.dao;
 
 import jakarta.persistence.*;
 import tn.gs.projet.model.Formation;
-
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -87,8 +86,6 @@ public class FormationDao {
 
     }
 
-
-
     public Map<String, Double> getBudgetByDomain() {
         Query query = em.createQuery(
                 "SELECT d.libelle, SUM(f.budget) FROM Formation f JOIN f.domaine d GROUP BY d.libelle"
@@ -124,14 +121,6 @@ public class FormationDao {
         return em.createQuery(
                         "SELECT f FROM Formation f WHERE f.dateDebut IS NOT NULL ORDER BY f.dateDebut DESC",
                         Formation.class)
-                .getResultList();
-    }
-
-    public List<Formation> findDernieresPlanifiees(int limit) {
-        return em.createQuery(
-                        "SELECT f FROM Formation f WHERE f.dateDebut IS NOT NULL " +
-                                "ORDER BY f.dateDebut DESC", Formation.class)
-                .setMaxResults(limit)
                 .getResultList();
     }
 

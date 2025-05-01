@@ -1,72 +1,5 @@
-<style>
-:root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --success-color: #27ae60;
-    --light-bg: #f8f9fa;
-}
 
-body {
-    background-color: var(--light-bg);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.navbar {
-    background: var(--primary-color) !important;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-}
-
-.table {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.card, .stat-card, .quick-action-card {
-    border: none;
-    border-radius: 12px !important;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
-}
-
-.card:hover, .stat-card:hover, .quick-action-card:hover {
-    transform: translateY(-5px);
-}
-
-.btn {
-    border-radius: 8px;
-    padding: 8px 20px;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.table thead {
-    background: var(--primary-color);
-    color: white !important;
-}
-
-.chart-container {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    margin: 15px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.main-content {
-    margin-top: 80px;
-    flex: 1;
-}
-
-.alert {
-    border-radius: 8px;
-}
-</style>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -92,6 +25,60 @@ body {
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --success-color: #27ae60;
+      --light-bg: #f8f9fa;
+    }
+
+    body {
+      background-color: var(--light-bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background: var(--primary-color) !important;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    }
+
+    .btn {
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .table thead {
+      background: var(--primary-color);
+      color: white !important;
+    }
+
+    .chart-container {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      height: 400px; /* Hauteur fixe pour tous les graphiques */
+      position: relative;
+    }
+
+    .stat-card h4 {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Ajustements responsives */
+    @media (max-width: 768px) {
+      .chart-container {
+        height: 300px;
+      }
+    }
     .stat-card {
       background: white;
       border-radius: 15px;
@@ -179,11 +166,23 @@ body {
       </div>
     </div>
 
-    <!-- Nouvelle Carte 4 - Budget par domaine -->
+    <!-- Colonne 3 - Budget par domaine -->
     <div class="col-md-6">
       <div class="stat-card">
         <h4><i class="fas fa-coins me-2"></i>Budget par domaine</h4>
-        <canvas id="budgetChart"></canvas>
+        <div class="chart-container"> <!-- Ajout du container -->
+          <canvas id="budgetChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne 4 - Participants par structure -->
+    <div class="col-md-6">
+      <div class="stat-card">
+        <h4><i class="fas fa-building me-2"></i>Participants par structure</h4>
+        <div class="chart-container">
+          <canvas id="structureChart"></canvas>
+        </div>
       </div>
     </div>
 
@@ -197,45 +196,45 @@ body {
     const formationsData = JSON.parse('<c:out value="${formationsParDomaineJSON}" escapeXml="false"/>');
     const participantsData = JSON.parse('<c:out value="${participantsParProfilJSON}" escapeXml="false"/>');
     const budgetData = JSON.parse('${budgetParDomaineJSON}');
+    const structuresData = JSON.parse('<c:out value="${participantsParStructureJSON}" escapeXml="false"/>');
 
-    // Graphique "Formations par domaine"
-    new Chart(document.getElementById("domainChart"), {
+
+      // Configuration commune des graphiques
+      const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+      legend: { position: "bottom" }
+    }
+    };
+
+      // Formations par domaine
+      new Chart(document.getElementById("domainChart"), {
       type: "pie",
       data: {
-        labels: Object.keys(formationsData),
-        datasets: [{
-          data: Object.values(formationsData),
-          backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc", "#f6c23e"]
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: "bottom" }
-        }
-      }
+      labels: Object.keys(formationsData),
+      datasets: [{
+      data: Object.values(formationsData),
+      backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc", "#f6c23e"]
+    }]
+    },
+      options: chartOptions
     });
 
-    // Graphique "Participants par profil"
-    new Chart(document.getElementById("profileChart"), {
+      // Participants par profil
+      new Chart(document.getElementById("profileChart"), {
       type: "doughnut",
       data: {
-        labels: Object.keys(participantsData),
-        datasets: [{
-          data: Object.values(participantsData),
-          backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc"]
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: "bottom" }
-        }
-      }
+      labels: Object.keys(participantsData),
+      datasets: [{
+      data: Object.values(participantsData),
+      backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc"]
+    }]
+    },
+      options: chartOptions
     });
 
-
-    // Graphique Budget par domaine (Line Chart)
+    // Graphique Budget par domaine
     new Chart(document.getElementById("budgetChart"), {
       type: "line",
       data: {
@@ -244,7 +243,8 @@ body {
           label: "Budget (TND)",
           data: Object.values(budgetData),
           borderColor: "#1cc88a",
-          fill: false
+          fill: false,
+          tension: 0.4
         }]
       },
       options: {
@@ -252,9 +252,41 @@ body {
         plugins: { legend: { position: "bottom" } }
       }
     });
-  });
+
+      // Participants par structure
+      new Chart(document.getElementById("structureChart"), {
+      type: "bar",
+      data: {
+      labels: Object.keys(structuresData),
+      datasets: [{
+      label: "Nombre de participants",
+      data: Object.values(structuresData),
+      backgroundColor: "#4e73df",
+      borderColor: "#4e73df",
+      borderWidth: 1
+    }]
+    },
+      options: {
+      ...chartOptions,
+      scales: {
+      y: { beginAtZero: true }
+    }
+    }
+    });
+    });
+
+
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+

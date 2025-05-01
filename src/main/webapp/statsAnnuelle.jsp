@@ -95,24 +95,6 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .offcanvas-start {
-      width: 280px;
-      background: var(--primary-color);
-      top: 70px;
-      height: calc(100vh - 70px);
-    }
-
-    .nav-link {
-      padding: 12px 20px;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-      background: rgba(255,255,255,0.1);
-    }
-
     footer {
       margin-top: 50px;
       padding: 2rem 0;

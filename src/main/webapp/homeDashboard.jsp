@@ -67,13 +67,6 @@
             box-shadow: 0 15px 25px rgba(0,0,0,0.15);
         }
 
-        .chart-container {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 1.5rem 0;
-        }
-
         #loader {
             position: fixed;
             z-index: 9999;

@@ -2,11 +2,9 @@ package tn.gs.projet.dao;
 
 
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import tn.gs.projet.model.Profil;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
 
 public class ProfilDao {
     private EntityManager em;
@@ -38,16 +36,4 @@ public class ProfilDao {
         em.getTransaction().commit();
     }
 
-    @Transactional
-    public Map<String, Long> getParticipantsCountByProfil() {
-        return em.createQuery(
-                        "SELECT p.libelle, COUNT(participant) " +
-                                "FROM Profil p LEFT JOIN p.participants participant " +
-                                "GROUP BY p.libelle", Object[].class)
-                .getResultStream()
-                .collect(Collectors.toMap(
-                        o -> (String) o[0],
-                        o -> (Long) o[1]
-                ));
-    }
 }

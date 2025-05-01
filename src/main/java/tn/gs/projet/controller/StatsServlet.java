@@ -8,11 +8,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import tn.gs.projet.dao.FormationDao;
 import tn.gs.projet.dao.ParticipantDao;
-
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
+
 
 @WebServlet("/stats")
 public class StatsServlet extends HttpServlet {
@@ -29,6 +27,7 @@ public class StatsServlet extends HttpServlet {
 
         Map<String, Double> budgetParDomaine = formationDao.getBudgetByDomain();
 
+        Map<String, Long> participantsParStructure = participantDao.getParticipantsCountByStructure();
 
 
         // Convertir en JSON
@@ -38,7 +37,7 @@ public class StatsServlet extends HttpServlet {
         request.setAttribute("participantsParProfilJSON", gson.toJson(participantsParProfil));
 
         request.setAttribute("budgetParDomaineJSON", gson.toJson(budgetParDomaine));
-
+        request.setAttribute("participantsParStructureJSON", gson.toJson(participantsParStructure));
 
 
 

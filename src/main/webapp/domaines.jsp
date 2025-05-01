@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -86,10 +86,6 @@
             padding: 1.5rem 0;
         }
 
-        .badge {
-            padding: 0.5em 0.75em;
-            border-radius: 8px;
-        }
     </style>
 </head>
 <body>
