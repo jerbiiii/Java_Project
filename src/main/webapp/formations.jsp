@@ -90,6 +90,92 @@
             padding: 0.5em 0.75em;
             border-radius: 8px;
         }
+
+             /* Nouveau style pour les notifications */
+         .custom-alert {
+             position: fixed;
+             top: 90px;
+             right: 30px;
+             min-width: 300px;
+             border-radius: 12px;
+             background: linear-gradient(145deg, #27ae60, #219a52);
+             color: white;
+             padding: 20px 25px;
+             box-shadow: 0 6px 20px rgba(39, 174, 96, 0.2);
+             border: none;
+             display: flex;
+             align-items: center;
+             gap: 15px;
+             transform: translateX(150%);
+             animation: slideIn 0.5s forwards, fadeOut 0.5s 4.5s forwards;
+             z-index: 1000;
+         }
+        /* Alerte Suppression (Rouge) */
+        .alert-danger {
+            background: linear-gradient(145deg, #e74c3c, #c0392b);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.2);
+        }
+
+        /* Alerte Modification (Jaune/Orange) */
+        .alert-warning {
+            background: linear-gradient(145deg, #f1c40f, #f39c12);
+            box-shadow: 0 6px 20px rgba(241, 196, 15, 0.2);
+        }
+
+        /* Alerte Ajout (Vert) */
+        .alert-success {
+            background: linear-gradient(145deg, #27ae60, #219a52);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.2);
+        }
+
+        .custom-alert i {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .custom-alert .alert-content {
+            flex-grow: 1;
+        }
+
+        .custom-alert .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+            padding: 0;
+            align-self: flex-start;
+        }
+
+        .custom-alert .close-btn:hover {
+            opacity: 1;
+        }
+
+        @keyframes slideIn {
+            to { transform: translateX(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Progress bar animation */
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.5);
+            width: 100%;
+            animation: progress 5s linear;
+        }
+
+        @keyframes progress {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
     </style>
 </head>
 <body>
@@ -125,6 +211,45 @@
 </nav>
 
 <main class="container main-content fade-in">
+
+    <c:if test="${not empty sessionScope.successMessage}">
+        <div class="custom-alert alert-success">
+            <div class="progress-bar"></div>
+            <i class="fas fa-check-circle"></i>
+            <div class="alert-content">
+                <h6 class="mb-1">Succès !</h6>
+                <p class="mb-0 small">${sessionScope.successMessage}</p>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <c:remove var="successMessage" scope="session"/>
+    </c:if>
+
+    <c:if test="${not empty sessionScope.warningMessage}">
+        <div class="custom-alert alert-warning">
+            <div class="progress-bar"></div>
+            <i class="fas fa-edit"></i>
+            <div class="alert-content">
+                <h6 class="mb-1">Modification</h6>
+                <p class="mb-0 small">${sessionScope.warningMessage}</p>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <c:remove var="warningMessage" scope="session"/>
+    </c:if>
+
+    <c:if test="${not empty sessionScope.errorMessage}">
+        <div class="custom-alert alert-danger">
+            <div class="progress-bar"></div>
+            <i class="fas fa-trash-alt"></i>
+            <div class="alert-content">
+                <h6 class="mb-1">Suppression</h6>
+                <p class="mb-0 small">${sessionScope.errorMessage}</p>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <c:remove var="errorMessage" scope="session"/>
+    </c:if>
     <div class="page-header">
         <h2 class="mb-0"><i class="fas fa-book-open me-2"></i>Liste des Formations</h2>
         <div class="d-flex gap-2">
@@ -208,5 +333,25 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Auto-dismiss après 5 secondes
+    document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.custom-alert');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+
+            // Pause animation au survol
+            alert.addEventListener('mouseenter', () => {
+                alert.style.animationPlayState = 'paused';
+            });
+
+            alert.addEventListener('mouseleave', () => {
+                alert.style.animationPlayState = 'running';
+            });
+        });
+    });
+</script>
 </body>
 </html>

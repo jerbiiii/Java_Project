@@ -62,11 +62,16 @@ public class FormationDao {
     }
 
     public void delete(Long id) {
+
         executeInTransaction(() -> {
+            // Supprimer d'abord les associations
+            em.createQuery("DELETE FROM FormationParticipant fp WHERE fp.formation.id = :formationId")
+                    .setParameter("formationId", id)
+                    .executeUpdate();
+
+            // Supprimer la formation
             Formation formation = em.find(Formation.class, id);
-            if (formation != null) {
-                em.remove(formation);
-            }
+            em.remove(formation);
         });
     }
 
