@@ -185,10 +185,12 @@
                                                        type="checkbox"
                                                        name="participantId"
                                                        value="${participant.id}"
-                                                    ${formation.participants.contains(participant) ? 'checked' : ''}
+                                                <c:forEach items="${formation.participants}" var="fp">
+                                                    ${fp.participant.id == participant.id ? 'checked' : ''}
+                                                </c:forEach>
                                                        id="participant_${participant.id}">
-                                                <label class="form-check-label" for="participant_${participant.id}">
-                                                    ${participant.nom} ${participant.prenom}
+                                                <label class="form-check-label">
+                                                        ${participant.nom} ${participant.prenom}
                                                 </label>
                                             </div>
                                         </div>
