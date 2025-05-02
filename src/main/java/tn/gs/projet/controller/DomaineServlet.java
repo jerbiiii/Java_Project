@@ -67,6 +67,12 @@ public class DomaineServlet extends HttpServlet {
         }
         domaine.setLibelle(request.getParameter("libelle"));
         domaineDao.saveOrUpdate(domaine);
+        HttpSession session = request.getSession();
+        if (id == null || id.isEmpty()) {
+            session.setAttribute("successMessage", "Domaine ajouté avec succès !");
+        } else {
+            session.setAttribute("warningMessage", "Domaine modifié avec succès !");
+        }
         response.sendRedirect("domaines?action=list");
     }
 
@@ -81,6 +87,8 @@ public class DomaineServlet extends HttpServlet {
             throws IOException {
         Long id = Long.parseLong(request.getParameter("id"));
         domaineDao.delete(id);
+        HttpSession session = request.getSession();
+        session.setAttribute("errorMessage", "Domaine supprimé avec succès !");
         response.sendRedirect("domaines?action=list");
     }
 }

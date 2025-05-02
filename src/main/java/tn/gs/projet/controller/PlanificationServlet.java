@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import tn.gs.projet.dao.FormateurDao;
 import tn.gs.projet.dao.FormationDao;
 import tn.gs.projet.model.Formateur;
@@ -44,6 +45,7 @@ public class PlanificationServlet extends HttpServlet {
 
         EntityManager em = (EntityManager) request.getAttribute("entityManager");
         EntityTransaction transaction = em.getTransaction();
+        HttpSession session = request.getSession();
 
         try {
             transaction.begin();
@@ -59,9 +61,26 @@ public class PlanificationServlet extends HttpServlet {
             Formation formation = formationDao.findById(formationId);
             Formateur formateur = formateurDao.findById(formateurId);
 
-            if(!formationDao.isFormateurDisponible(formateurId, dateDebut, dateFin)) {
-                request.setAttribute("erreur", "Le formateur est indisponible pour cette période");
-                doGet(request, response);
+
+            Long excludeId = formation != null ? formation.getId() : -1L;
+
+            // Vérification des conflits
+            List<Formation> conflicts = formationDao.findConflictingFormations(
+                    formateurId,
+                    dateDebut,
+                    dateFin,
+                    excludeId
+            );
+
+            if(!conflicts.isEmpty()) {
+                Formation conflict = conflicts.get(0);
+                String message = String.format(
+                        "Le formateur est déjà en formation du %s au %s",
+                        conflict.getDateDebut(),
+                        conflict.getDateFin()
+                );
+                session.setAttribute("errorMessage", message);
+                response.sendRedirect(request.getContextPath() + "/formationsPlanifiees");
                 return;
             }
 
@@ -74,13 +93,14 @@ public class PlanificationServlet extends HttpServlet {
             formationDao.saveOrUpdate(formation);
             transaction.commit();
 
-            response.sendRedirect(request.getContextPath() + "/formationsPlanifiees");
 
+            session.setAttribute("successMessage", "Planification réussie !");
+            response.sendRedirect(request.getContextPath() + "/formationsPlanifiees");
 
         } catch (Exception e) {
             if (transaction.isActive()) transaction.rollback();
-            request.setAttribute("erreur", "Erreur lors de la planification : " + e.getMessage());
-            doGet(request, response);
+            session.setAttribute("errorMessage", "Erreur technique : " + e.getMessage());
+            response.sendRedirect(request.getContextPath() + "/planification");
         }
     }
 }

@@ -66,6 +66,12 @@ public class ProfilServlet extends HttpServlet {
         }
         profil.setLibelle(request.getParameter("libelle"));
         profilDao.saveOrUpdate(profil);
+        HttpSession session = request.getSession();
+        if (id == null || id.isEmpty()) {
+            session.setAttribute("successMessage", "Profil ajouté avec succès !");
+        } else {
+            session.setAttribute("warningMessage", "Profil modifié avec succès !");
+        }
         response.sendRedirect("profils?action=list");
     }
 
@@ -80,6 +86,8 @@ public class ProfilServlet extends HttpServlet {
             throws IOException {
         Long id = Long.parseLong(request.getParameter("id"));
         profilDao.delete(id);
+        HttpSession session = request.getSession();
+        session.setAttribute("errorMessage", "Profil supprimé avec succès !");
         response.sendRedirect("profils?action=list");
     }
 }

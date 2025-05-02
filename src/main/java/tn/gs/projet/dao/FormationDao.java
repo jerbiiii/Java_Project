@@ -110,18 +110,21 @@ public class FormationDao {
                 .getResultList();
     }
 
-    public boolean isFormateurDisponible(Long formateurId, LocalDate debut, LocalDate fin) {
+    public List<Formation> findConflictingFormations(Long formateurId, LocalDate newStart, LocalDate newEnd, Long excludeFormationId) {
         return em.createQuery(
-                        "SELECT COUNT(f) FROM Formation f WHERE " +
+                        "SELECT f FROM Formation f WHERE " +
                                 "f.formateur.id = :formateurId AND " +
-                                "((f.dateDebut BETWEEN :debut AND :fin) OR " +
-                                "(f.dateFin BETWEEN :debut AND :fin))",
-                        Long.class)
+                                "f.id != :excludeFormationId AND " +
+                                "((f.dateDebut <= :newEnd AND f.dateFin >= :newStart))",
+                        Formation.class)
                 .setParameter("formateurId", formateurId)
-                .setParameter("debut", debut)
-                .setParameter("fin", fin)
-                .getSingleResult() == 0;
+                .setParameter("newStart", newStart)
+                .setParameter("newEnd", newEnd)
+                .setParameter("excludeFormationId", excludeFormationId != null ? excludeFormationId : -1L)
+                .getResultList();
     }
+
+
     public List<Formation> findPlanifiees() {
         return em.createQuery(
                         "SELECT f FROM Formation f WHERE f.dateDebut IS NOT NULL ORDER BY f.dateDebut DESC",

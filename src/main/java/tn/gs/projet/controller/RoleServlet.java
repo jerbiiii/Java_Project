@@ -68,6 +68,12 @@ public class RoleServlet extends HttpServlet {
         }
         role.setNom(request.getParameter("nom"));
         roleDao.saveOrUpdate(role);
+        HttpSession session = request.getSession();
+        if (id == null || id.isEmpty()) {
+            session.setAttribute("successMessage", "Rôle ajouté avec succès !");
+        } else {
+            session.setAttribute("warningMessage", "Rôle modifié avec succès !");
+        }
         response.sendRedirect("roles?action=list");
     }
 
@@ -89,6 +95,8 @@ public class RoleServlet extends HttpServlet {
             throws IOException {
         Long id = Long.parseLong(request.getParameter("id"));
         roleDao.delete(id);
+        HttpSession session = request.getSession();
+        session.setAttribute("errorMessage", "Rôle supprimé avec succès !");
         response.sendRedirect("roles?action=list");
     }
 }

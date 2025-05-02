@@ -67,6 +67,12 @@ public class StructureServlet extends HttpServlet {
         }
         structure.setLibelle(request.getParameter("libelle"));
         structureDao.saveOrUpdate(structure);
+        HttpSession session = request.getSession();
+        if (id == null || id.isEmpty()) {
+            session.setAttribute("successMessage", "Structure ajoutée avec succès !");
+        } else {
+            session.setAttribute("warningMessage", "Structure modifiée avec succès !");
+        }
         response.sendRedirect("structures?action=list");
     }
 
@@ -81,6 +87,8 @@ public class StructureServlet extends HttpServlet {
             throws IOException {
         Long id = Long.parseLong(request.getParameter("id"));
         structureDao.delete(id);
+        HttpSession session = request.getSession();
+        session.setAttribute("errorMessage", "Structure supprimée avec succès !");
         response.sendRedirect("structures?action=list");
     }
 }

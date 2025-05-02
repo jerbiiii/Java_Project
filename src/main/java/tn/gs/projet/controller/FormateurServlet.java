@@ -75,6 +75,12 @@ public class FormateurServlet extends HttpServlet {
         formateur.setType(request.getParameter("type"));
         formateur.setEmployeur(employeurDao.findById(Long.parseLong(request.getParameter("employeurId"))));
         formateurDao.saveOrUpdate(formateur);
+        HttpSession session = request.getSession();
+        if (id == null || id.isEmpty()) {
+            session.setAttribute("successMessage", "Formateur ajouté avec succès !");
+        } else {
+            session.setAttribute("warningMessage", "Formateur modifié avec succès !");
+        }
         response.sendRedirect("formateurs?action=list");
     }
 
@@ -90,6 +96,9 @@ public class FormateurServlet extends HttpServlet {
             throws IOException {
         Long id = Long.parseLong(request.getParameter("id"));
         formateurDao.delete(id);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("errorMessage", "Formateur supprimé avec succès !");
         response.sendRedirect("formateurs?action=list");
     }
 }

@@ -77,6 +77,12 @@ public class UtilisateurServlet extends HttpServlet {
         utilisateur.setPassword(request.getParameter("password"));
         utilisateur.setRole(roleDao.findById(Long.parseLong(request.getParameter("roleId"))));
         utilisateurDao.saveOrUpdate(utilisateur);
+        HttpSession session = request.getSession();
+        if (id == null || id.isEmpty()) {
+            session.setAttribute("successMessage", "Utilisateur ajouté avec succès !");
+        } else {
+            session.setAttribute("warningMessage", "Utilisateur modifié avec succès !");
+        }
         response.sendRedirect("utilisateurs?action=list");
     }
 
@@ -92,6 +98,8 @@ public class UtilisateurServlet extends HttpServlet {
             throws IOException {
         Long id = Long.parseLong(request.getParameter("id"));
         utilisateurDao.delete(id);
+        HttpSession session = request.getSession();
+        session.setAttribute("errorMessage", "Utilisateur supprimé avec succès !");
         response.sendRedirect("utilisateurs?action=list");
     }
 }

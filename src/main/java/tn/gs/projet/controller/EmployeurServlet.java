@@ -66,6 +66,12 @@ public class EmployeurServlet extends HttpServlet {
         }
         employeur.setNomEmployeur(request.getParameter("nomEmployeur"));
         employeurDao.saveOrUpdate(employeur);
+        HttpSession session = request.getSession();
+        if (id == null || id.isEmpty()) {
+            session.setAttribute("successMessage", "Employeur ajouté avec succès !");
+        } else {
+            session.setAttribute("warningMessage", "Employeur modifié avec succès !");
+        }
         response.sendRedirect("employeurs?action=list");
     }
 
@@ -80,6 +86,8 @@ public class EmployeurServlet extends HttpServlet {
             throws IOException {
         Long id = Long.parseLong(request.getParameter("id"));
         employeurDao.delete(id);
+        HttpSession session = request.getSession();
+        session.setAttribute("errorMessage", "Employeur supprimé avec succès !");
         response.sendRedirect("employeurs?action=list");
     }
 }

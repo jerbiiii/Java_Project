@@ -77,6 +77,12 @@ public class ParticipantServlet extends HttpServlet {
         participant.setStructure(structureDao.findById(Long.parseLong(request.getParameter("structureId"))));
         participant.setProfil(profilDao.findById(Long.parseLong(request.getParameter("profilId"))));
         participantDao.saveOrUpdate(participant);
+        HttpSession session = request.getSession();
+        if (id == null || id.isEmpty()) {
+            session.setAttribute("successMessage", "Participant ajouté avec succès !");
+        } else {
+            session.setAttribute("warningMessage", "Participant modifié avec succès !");
+        }
         response.sendRedirect("participants?action=list");
     }
 
@@ -93,6 +99,8 @@ public class ParticipantServlet extends HttpServlet {
             throws IOException {
         Long id = Long.parseLong(request.getParameter("id"));
         participantDao.delete(id);
+        HttpSession session = request.getSession();
+        session.setAttribute("errorMessage", "Participant supprimé avec succès !");
         response.sendRedirect("participants?action=list");
     }
 }

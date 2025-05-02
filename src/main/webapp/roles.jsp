@@ -85,6 +85,70 @@
             color: white;
             padding: 1.5rem 0;
         }
+        /* Notification System */
+        .custom-alert {
+            position: fixed;
+            top: 90px;
+            right: 30px;
+            min-width: 300px;
+            border-radius: 12px;
+            color: white;
+            padding: 20px 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateX(150%);
+            animation: slideIn 0.5s forwards, fadeOut 0.5s 4.5s forwards;
+            z-index: 1000;
+        }
+
+        .alert-success {
+            background: linear-gradient(145deg, #27ae60, #219a52);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.2);
+        }
+
+        .alert-warning {
+            background: linear-gradient(145deg, #ffd700, #ffc400);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .alert-danger {
+            background: linear-gradient(145deg, #e74c3c, #c0392b);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.2);
+        }
+
+        .custom-alert i {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            width: 100%;
+            animation: progress 5s linear;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+            padding: 0;
+            align-self: flex-start; /* Alignement correct */
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        @keyframes slideIn { to { transform: translateX(0); } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes progress { from { width: 100%; } to { width: 0%; } }
     </style>
 </head>
 <body>
@@ -120,6 +184,45 @@
 </nav>
 
 <main class="container main-content fade-in">
+    <!-- Notifications -->
+    <c:if test="${not empty sessionScope.successMessage}">
+        <div class="custom-alert alert-success">
+            <div class="progress-bar"></div>
+            <i class="fas fa-check-circle"></i>
+            <div class="alert-content">
+                <h6 class="mb-1">Succès !</h6>
+                <p class="mb-0 small">${sessionScope.successMessage}</p>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <c:remove var="successMessage" scope="session"/>
+    </c:if>
+
+    <c:if test="${not empty sessionScope.warningMessage}">
+        <div class="custom-alert alert-warning">
+            <div class="progress-bar"></div>
+            <i class="fas fa-exclamation-triangle"></i>
+            <div class="alert-content">
+                <h6 class="mb-1">Modification</h6>
+                <p class="mb-0 small">${sessionScope.warningMessage}</p>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <c:remove var="warningMessage" scope="session"/>
+    </c:if>
+
+    <c:if test="${not empty sessionScope.errorMessage}">
+        <div class="custom-alert alert-danger">
+            <div class="progress-bar"></div>
+            <i class="fas fa-times-circle"></i>
+            <div class="alert-content">
+                <h6 class="mb-1">Suppression</h6>
+                <p class="mb-0 small">${sessionScope.errorMessage}</p>
+            </div>
+            <button class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <c:remove var="errorMessage" scope="session"/>
+    </c:if>
     <div class="page-header">
         <h2 class="mb-0"><i class="fas fa-user-tag me-2"></i>Liste des Rôles</h2>
         <div class="d-flex gap-2">
@@ -189,5 +292,27 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Gestion des notifications
+    document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.custom-alert');
+
+        alerts.forEach(alert => {
+            // Auto-dismiss après 5s
+            setTimeout(() => alert.remove(), 5000);
+
+            // Pause au survol
+            alert.addEventListener('mouseenter', () =>
+                alert.style.animationPlayState = 'paused');
+
+            alert.addEventListener('mouseleave', () =>
+                alert.style.animationPlayState = 'running');
+
+            // Fermeture manuelle
+            alert.querySelector('.close-btn').addEventListener('click', () =>
+                alert.remove());
+        });
+    });
+</script>
 </body>
 </html>

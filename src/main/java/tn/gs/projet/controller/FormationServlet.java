@@ -203,12 +203,16 @@ public class FormationServlet extends HttpServlet {
 
     private void deletePlanification(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-
+        HttpSession session = request.getSession();
+        try {
             Long id = Long.parseLong(request.getParameter("id"));
             formationDao.deletePlanification(id);
-            if (!response.isCommitted()) {
-                response.sendRedirect(request.getContextPath() + "/formationsPlanifiees");
-            }
+            session.setAttribute("errorMessage", "Planification supprimée avec succès");
+        } catch (Exception e) {
+            session.setAttribute("errorMessage", "Erreur lors de la suppression : " + e.getMessage());
+        }
+        response.sendRedirect(request.getContextPath() + "/formationsPlanifiees");
+
 
     }
 
