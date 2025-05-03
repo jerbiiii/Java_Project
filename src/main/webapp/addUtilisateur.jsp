@@ -185,20 +185,38 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Bootstrap validation
-    (function () {
-        'use strict';
-        var forms = document.querySelectorAll('.needs-validation');
-        Array.prototype.slice.call(forms).forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
+    // Validation en temps réel
+    document.querySelectorAll('input, select').forEach(element => {
+        const validateField = () => {
+            element.classList.remove('is-valid', 'is-invalid');
+
+            if (element.checkValidity()) {
+                element.classList.add('is-valid');
+            } else {
+                element.classList.add('is-invalid');
+            }
+        };
+
+        element.addEventListener('input', validateField);
+        element.addEventListener('change', validateField);
+    });
+
+    // Gestion de la soumission
+    document.querySelector('form').addEventListener('submit', function(event) {
+        this.classList.add('was-validated');
+
+        if (!this.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    });
+
+    window.addEventListener("load", function() {
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = 1;
+            el.style.transform = 'translateY(0)';
         });
-    })();
+    });
 </script>
 </body>
 </html>

@@ -262,6 +262,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Nom</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
                         <th>Type</th>
                         <th>Employeur</th>
                         <th class="text-end">Actions</th>
@@ -272,6 +274,8 @@
                         <tr>
                             <td>${formateur.id}</td>
                             <td>${formateur.nom} ${formateur.prenom}</td>
+                            <td>${formateur.email}</td>
+                            <td>${formateur.tel}</td>
                             <td><span class="badge bg-info">${formateur.type}</span></td>
                             <td>${formateur.employeur.nomEmployeur}</td>
                             <td class="text-end action-buttons">

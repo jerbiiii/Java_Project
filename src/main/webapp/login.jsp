@@ -98,9 +98,114 @@
             color: white;
             padding: 1.5rem 0;
         }
+        /* Nouveau design du loader */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease;
+        }
+
+        .modern-loader {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .logo-pulse {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .logo-pulse img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .spinner-track {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #2c3e50;
+            border-bottom-color: #3498db;
+            animation: rotate 1.5s linear infinite;
+            position: relative;
+        }
+
+        .spinner-track::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #27ae60;
+            border-bottom-color: #e74c3c;
+            animation: rotate 2s linear infinite reverse;
+        }
+
+        .loading-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .animated-dots::after {
+            content: '.';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
     </style>
 </head>
 <body>
+
+<div id="loader" class="loader-overlay">
+    <div class="modern-loader">
+        <div class="logo-pulse">
+            <img src="https://cdn-icons-png.flaticon.com/512/1974/1974346.png" alt="Logo">
+        </div>
+        <div class="spinner-track"></div>
+        <div class="loading-text">Authentification en cours<span class="animated-dots"></span></div>
+    </div>
+</div>
+
 <div class="login-container fade-in">
     <div class="login-card">
         <div class="card-header">
@@ -149,5 +254,16 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Afficher le loader lors de la soumission
+    document.querySelector('form').addEventListener('submit', function() {
+        document.getElementById('loader').style.display = 'flex';
+    });
+
+    // Cacher le loader si la page se recharge (en cas d'erreur)
+    window.addEventListener('load', function() {
+        document.getElementById('loader').style.display = 'none';
+    });
+</script>
 </body>
 </html>

@@ -71,7 +71,7 @@ public class FormateurServlet extends HttpServlet {
         formateur.setNom(request.getParameter("nom"));
         formateur.setPrenom(request.getParameter("prenom"));
         formateur.setEmail(request.getParameter("email"));
-        formateur.setTel(Integer.parseInt(request.getParameter("tel")));
+        formateur.setTel(Long.parseLong(request.getParameter("tel").replaceAll("[^0-9]", "")));
         formateur.setType(request.getParameter("type"));
         formateur.setEmployeur(employeurDao.findById(Long.parseLong(request.getParameter("employeurId"))));
         formateurDao.saveOrUpdate(formateur);

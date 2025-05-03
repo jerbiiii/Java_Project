@@ -15,7 +15,7 @@ public class Formateur {
     private String nom;
     private String prenom;
     private String email;
-    private int tel;
+    private long tel;
     private String type; // "interne" ou "externe"
 
     @ManyToOne
