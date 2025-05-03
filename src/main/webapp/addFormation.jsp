@@ -72,9 +72,66 @@
             color: white;
             padding: 1.5rem 0;
         }
+        /* Animations éducatives */
+        .book-loader {
+            width: 60px;
+            height: 45px;
+            position: relative;
+        }
+
+        .page {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            background: var(--secondary-color);
+            animation: flipPage 2s infinite;
+        }
+
+        @keyframes flipPage {
+            0%, 100% { transform: perspective(200px) rotateY(0deg); }
+            50% { transform: perspective(200px) rotateY(-180deg); }
+        }
+
+        .pencil-loader {
+            width: 80px;
+            height: 5px;
+            background: var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .line {
+            position: absolute;
+            width: 30px;
+            height: 100%;
+            background: var(--success-color);
+            animation: write 1.5s linear infinite;
+        }
+
+        @keyframes write {
+            from { left: -30px; }
+            to { left: 100%; }
+        }
+
+        .diploma-loader {
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+
+        .roll {
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--success-color);
+            border-radius: 50%;
+            animation: rollUp 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
     </style>
 </head>
 <body>
+
+
+
 
 <!-- Navbar -->
 <nav class="navbar navbar-dark fixed-top">
@@ -224,13 +281,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    window.addEventListener("load", function() {
-        document.querySelectorAll('.fade-in').forEach(el => {
-            el.style.opacity = 1;
-            el.style.transform = 'translateY(0)';
-        });
-    });
-</script>
+
 </body>
 </html>

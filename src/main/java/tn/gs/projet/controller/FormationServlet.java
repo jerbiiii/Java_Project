@@ -21,9 +21,7 @@ public class FormationServlet extends HttpServlet {
 
     @Override
     public void init() {
-        formationDao = new FormationDao();
-        domaineDao = new DomaineDao();
-        participantDao = new ParticipantDao();
+
     }
     private EntityManager getEntityManager(HttpServletRequest request) {
         return (EntityManager) request.getAttribute("entityManager");
@@ -58,6 +56,7 @@ public class FormationServlet extends HttpServlet {
                     break;
                 case "delete":
                     deleteFormation(request, response);
+                    break;
                 case "deletePlanification":
                     deletePlanification(request, response);
                     return;

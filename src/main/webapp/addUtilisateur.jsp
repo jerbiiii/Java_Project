@@ -68,9 +68,139 @@
             color: white;
             padding: 1.5rem 0;
         }
+        /* Loader Overlay amélioré */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Loader 1 - Particules quantiques */
+        .quantum-loader {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+
+        .particle {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            animation: quantum 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .particle:nth-child(1) {
+            animation-delay: 0s;
+            background: var(--success-color);
+        }
+        .particle:nth-child(2) {
+            animation-delay: 0.2s;
+            background: var(--primary-color);
+        }
+        .particle:nth-child(3) {
+            animation-delay: 0.4s;
+            background: var(--secondary-color);
+        }
+
+        @keyframes quantum {
+            0% { transform: rotate(0deg) translateX(40px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(40px) rotate(-360deg); }
+        }
+
+        /* Loader 2 - Vague dynamique */
+        .wave-loader {
+            display: flex;
+            gap: 8px;
+            height: 50px;
+        }
+
+        .bar {
+            width: 12px;
+            height: 30px;
+            background: var(--primary-color);
+            animation: wave 1.2s ease-in-out infinite;
+            border-radius: 4px;
+        }
+
+        .bar:nth-child(2) { animation-delay: 0.2s; }
+        .bar:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes wave {
+            0%, 100% { height: 30px; }
+            50% { height: 60px; background: var(--secondary-color); }
+        }
+
+        /* Loader 3 - Effet holographique */
+        .hologram-loader {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .hologram {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg,
+            var(--secondary-color),
+            var(--success-color),
+            var(--primary-color));
+            animation: hologram 2s infinite alternate;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+        }
+
+        @keyframes hologram {
+            0% {
+                transform: scale(0.9);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .loader-text {
+            margin-top: 25px;
+            font-size: 1.2em;
+            color: var(--primary-color);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hidden { display: none; }
+
     </style>
 </head>
 <body>
+<div id="loader-overlay" class="loader-overlay">
+    <!-- Loader 1 - Particules tournantes -->
+    <div class="loader-1 hidden">
+        <div class="quantum-loader">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        <div class="loader-text">Création de compte...</div>
+    </div>
+
 
 <!-- Navbar -->
 <nav class="navbar navbar-dark fixed-top">
@@ -216,6 +346,31 @@
             el.style.opacity = 1;
             el.style.transform = 'translateY(0)';
         });
+    });
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const loaders = document.querySelectorAll('#loader-overlay > div');
+        const randomLoader = Math.floor(Math.random() * loaders.length);
+
+        document.getElementById('loader-overlay').style.display = 'flex';
+        loaders.forEach(loader => loader.classList.add('hidden'));
+        loaders[randomLoader].classList.remove('hidden');
+    });
+
+    window.addEventListener('load', function() {
+        document.getElementById('loader-overlay').style.display = 'none';
+    });
+    // Gestion des loaders
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const loaders = document.querySelectorAll('#loader-overlay > div');
+        const randomLoader = Math.floor(Math.random() * loaders.length);
+
+        document.getElementById('loader-overlay').style.display = 'flex';
+        loaders.forEach(loader => loader.classList.add('hidden'));
+        loaders[randomLoader].classList.remove('hidden');
+    });
+
+    window.addEventListener('load', function() {
+        document.getElementById('loader-overlay').style.display = 'none';
     });
 </script>
 </body>

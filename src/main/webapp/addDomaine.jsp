@@ -68,9 +68,87 @@
             color: white;
             padding: 1.5rem 0;
         }
+        /* Animations nature */
+        .leaf-loader {
+            display: flex;
+            gap: 15px;
+        }
+
+        .leaf {
+            width: 30px;
+            height: 30px;
+            background: var(--success-color);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation: leafFloat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes leafFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(15deg); }
+        }
+
+        .growing-tree {
+            width: 50px;
+            height: 0;
+            background: var(--primary-color);
+            animation: grow 2s ease-out forwards;
+        }
+
+        @keyframes grow {
+            to { height: 80px; }
+        }
+
+        .water-drop {
+            position: relative;
+            width: 50px;
+            height: 50px;
+        }
+
+        .ripple {
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--secondary-color);
+            border-radius: 50%;
+            animation: ripple 1.5s infinite;
+        }
+
+        @keyframes ripple {
+            to { transform: scale(2); opacity: 0; }
+        }
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
+
+<div id="loader-overlay" class="loader-overlay">
+    <!-- Loader 1 - Feuilles tournantes -->
+    <div class="loader-1 hidden">
+        <div class="leaf-loader">
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+        </div>
+        <div class="loader-text">Enregistrement du domaine...</div>
+    </div>
+
+
 
 <!-- Navbar -->
 <nav class="navbar navbar-dark fixed-top">
@@ -153,7 +231,27 @@
             el.style.opacity = 1;
             el.style.transform = 'translateY(0)';
         });
+
+    // Afficher le loader
+    const loaders = document.querySelectorAll('#loader-overlay > div');
+    const randomLoader = Math.floor(Math.random() * loaders.length);
+    document.getElementById('loader-overlay').style.display = 'flex';
+    loaders.forEach(l => l.classList.add('hidden'));
+    loaders[randomLoader].classList.remove('hidden');
+
+    // Soumission AJAX
+    const formData = new FormData(this);
+
+    axios.post(this.action, formData)
+        .then(response => {
+            window.location.href = "${pageContext.request.contextPath}/domaines";
+        })
+        .catch(error => {
+            alert("Erreur lors de l'enregistrement");
+            document.getElementById('loader-overlay').style.display = 'none';
+        });
     });
+
 </script>
 </body>
 </html>
