@@ -69,94 +69,22 @@
             color: white;
             padding: 1.5rem 0;
         }
-        /* Loader Overlay */
-        .loader-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(5px);
-            z-index: 9999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
 
-        /* Loader 1 - Rotating Cubes */
-        .cube-container {
-            display: flex;
-            gap: 12px;
-        }
-
-        .cube {
-            width: 25px;
-            height: 25px;
-            background: var(--secondary-color);
-            animation: cubeJump 1.2s infinite ease-in-out;
-        }
-
-        .cube:nth-child(2) {
-            animation-delay: 0.2s;
-            background: var(--success-color);
-        }
-
-        .cube:nth-child(3) {
-            animation-delay: 0.4s;
-            background: var(--primary-color);
-        }
 
         @keyframes cubeJump {
             0%, 80%, 100% { transform: translateY(0); }
             40% { transform: translateY(-30px); }
         }
 
-        /* Loader 2 - Bouncing Dots */
-        .dot-flashing {
-            position: relative;
-            width: 10px;
-            height: 10px;
-            border-radius: 5px;
-            background-color: var(--secondary-color);
-            animation: dotFlashing 1s infinite linear alternate;
-            animation-delay: 0.5s;
-        }
 
-        .dot-flashing::before, .dot-flashing::after {
-            content: '';
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            border-radius: 5px;
-            background-color: var(--secondary-color);
-            animation: dotFlashing 1s infinite alternate;
-        }
 
-        .dot-flashing::before {
-            left: -15px;
-            animation-delay: 0s;
-        }
-
-        .dot-flashing::after {
-            left: 15px;
-            animation-delay: 1s;
-        }
 
         @keyframes dotFlashing {
             0% { background-color: var(--secondary-color); }
             50%, 100% { background-color: rgba(52, 152, 219, 0.2); }
         }
 
-        /* Loader 3 - Morphing Circle */
-        .morph-circle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--success-color);
-            animation: morph 2s infinite ease-in-out;
-        }
+
 
         @keyframes morph {
             0%, 100% {
@@ -169,29 +97,9 @@
             }
         }
 
-        .loader-text {
-            margin-top: 20px;
-            font-weight: 500;
-            color: var(--primary-color);
-            font-size: 1.1em;
-        }
-
-        .hidden { display: none; }
     </style>
 </head>
 <body>
-
-<div id="loader-overlay" class="loader-overlay">
-    <!-- Loader 1 - Rotating Cubes -->
-    <div class="loader-1 hidden">
-        <div class="cube-container">
-            <div class="cube"></div>
-            <div class="cube"></div>
-            <div class="cube"></div>
-        </div>
-        <div class="loader-text">Enregistrement en cours</div>
-    </div>
-
 
 <!-- Navbar -->
 <nav class="navbar navbar-dark fixed-top">
@@ -218,7 +126,7 @@
 
         <a class="navbar-brand mx-auto" href="#">
             <img src="https://cdn-icons-png.flaticon.com/512/1974/1974346.png" alt="Logo" style="height:40px">
-            Gestion des Formations
+            Gestion des Formateurs
         </a>
     </div>
 </nav>
@@ -370,34 +278,7 @@
         element.addEventListener('change', validateField);
     });
 
-        // Gestion de la soumission
-        document.querySelector('form').addEventListener('submit', function(event) {
-        this.classList.add('was-validated');
 
-        if (!this.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
-    });
-
-        window.addEventListener("load", function() {
-        document.querySelectorAll('.fade-in').forEach(el => {
-            el.style.opacity = 1;
-            el.style.transform = 'translateY(0)';
-        });
-    });
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const loaders = document.querySelectorAll('#loader-overlay > div');
-            const randomLoader = Math.floor(Math.random() * loaders.length);
-
-            document.getElementById('loader-overlay').style.display = 'flex';
-            loaders.forEach(loader => loader.classList.add('hidden'));
-            loaders[randomLoader].classList.remove('hidden');
-        });
-
-        window.addEventListener('load', function() {
-            document.getElementById('loader-overlay').style.display = 'none';
-        });
 </script>
 </body>
 </html>

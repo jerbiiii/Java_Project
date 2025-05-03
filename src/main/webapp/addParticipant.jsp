@@ -101,7 +101,7 @@
 
         <a class="navbar-brand mx-auto" href="#">
             <img src="https://cdn-icons-png.flaticon.com/512/1974/1974346.png" alt="Logo" style="height:40px">
-            Gestion des Formations
+            Gestion des Participants
         </a>
     </div>
 </nav>
@@ -163,7 +163,7 @@
                                        title="exemple@domaine.com"
                                        required>
                                 <div class="invalid-feedback">
-                                    Format email invalide (ex: exemple@domaine.com)
+                                    Format email invalide (ex: exemple@exemple.com)
                                 </div>
                             </div>
                         </div>

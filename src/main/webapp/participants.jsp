@@ -222,7 +222,7 @@
             <div class="progress-bar"></div>
             <i class="fas fa-calendar-times"></i>
             <div class="alert-content">
-                <h6 class="mb-1">Conflit de planning</h6>
+                <h6 class="mb-1">Suppression !</h6>
                 <p class="mb-0 small">${sessionScope.errorMessage}</p>
             </div>
         </div>

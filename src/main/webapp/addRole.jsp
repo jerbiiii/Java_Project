@@ -97,7 +97,7 @@
 
         <a class="navbar-brand mx-auto" href="#">
             <img src="https://cdn-icons-png.flaticon.com/512/1974/1974346.png" alt="Logo" style="height:40px">
-            Gestion des Formations
+            Gestion des Rôles
         </a>
     </div>
 </nav>

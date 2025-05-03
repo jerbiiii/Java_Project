@@ -68,13 +68,7 @@
             color: white;
             padding: 1.5rem 0;
         }
-        /* Animations professionnelles */
-        .chart-loader {
-            display: flex;
-            align-items: flex-end;
-            height: 60px;
-            gap: 8px;
-        }
+
 
         .chart-loader .bar {
             width: 20px;
@@ -87,58 +81,9 @@
             50% { height: 50px; }
         }
 
-        .briefcase-loader {
-            font-size: 3rem;
-            color: var(--secondary-color);
-            animation: bounce 1s ease infinite;
-        }
-
-        .network-loader {
-            position: relative;
-            width: 80px;
-            height: 80px;
-        }
-
-        .node {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background: var(--success-color);
-            border-radius: 50%;
-            animation: networkPulse 1.5s infinite;
-        }
-        .loader-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
-            z-index: 9999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
-<div id="loader-overlay" class="loader-overlay">
-    <!-- Loader 1 - Graphique -->
-    <div class="loader-1 hidden">
-        <div class="chart-loader">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
-        <div class="loader-text">Analyse des besoins...</div>
-    </div>
-
 
 <!-- Navbar -->
 <nav class="navbar navbar-dark fixed-top">
@@ -165,7 +110,7 @@
 
         <a class="navbar-brand mx-auto" href="#">
             <img src="https://cdn-icons-png.flaticon.com/512/1974/1974346.png" alt="Logo" style="height:40px">
-            Gestion des Formations
+            Gestion des Employeurs
         </a>
     </div>
 </nav>
@@ -216,26 +161,5 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    window.addEventListener("load", function() {
-        document.querySelectorAll('.fade-in').forEach(el => {
-            el.style.opacity = 1;
-            el.style.transform = 'translateY(0)';
-        });
-    });
-    // Gestion des loaders
-    document.querySelector('form').addEventListener('submit', function(e) {
-        const loaders = document.querySelectorAll('#loader-overlay > div');
-        const randomLoader = Math.floor(Math.random() * loaders.length);
-
-        document.getElementById('loader-overlay').style.display = 'flex';
-        loaders.forEach(loader => loader.classList.add('hidden'));
-        loaders[randomLoader].classList.remove('hidden');
-    });
-
-    window.addEventListener('load', function() {
-        document.getElementById('loader-overlay').style.display = 'none';
-    });
-</script>
 </body>
 </html>
